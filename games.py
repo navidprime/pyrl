@@ -1,3 +1,4 @@
+import math
 
 class Status(enumerate):
     Win = 0,
@@ -10,12 +11,15 @@ class Move(enumerate):
     Up = 2,
     Down = 3
 
-class Game:
+class SimpleGame:
+    """this is a simple game to test the rl algorithms.
+        objective of the game is that the player should avoid obstacles(lose_positions) and should reach one of the $ (win_positions)"""
     def __init__(self) -> None:
         self.pos = (0,0)
-        self.lose_positions = [(1,1),(1,0),(0,1),(1,2),(2,1)]
-        self.win_positions = [(2,2)]
+        self.lose_positions = [(1,1),(1,0),(0,1),(1,2),(2,1),(-1,-1),(-2,0), (-2,-2), (0,-3), (-2,2), (-1, 3), (2, -2), (1, -2)]
+        self.win_positions = [(2,2), (4,3), (-2, -1), (-2,3), (2, -3), (-4,-3)]
         self.awake_for = 0
+    
     def move(self, move: Move) -> tuple[tuple[int,int],tuple[int,int],Status]: # prev,current
         prev_pos = self.pos
         status = Status.Nothing
@@ -43,6 +47,7 @@ class Game:
             self.awake_for += 1
         
         return (prev_pos, self.pos, status)
+    
     def show_map(self) -> None:
         for i in range(-5,5):
             for j in range(-5,5):
